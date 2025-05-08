@@ -21,6 +21,13 @@
 		SELECT LAST_INSERT_ID()
 	</select>
 	
+	<select id="getMemberByNameAndEmail" parameterType="string"
+		resultType="com.example.demo.vo.Member">
+		SELECT * FROM `member`
+		WHERE `name` = #{name} 
+		AND email = #{email}
+	</select>
+	
 	<select id="getMemberByLoginId" parameterType="string"
 		resultType="com.example.demo.vo.Member">
 		SELECT * FROM `member`
