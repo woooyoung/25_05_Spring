@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.repository.ArticleRepository">
 
 	<insert id="writeArticle" parameterType="map">
 		INSERT INTO article
-		SET regDate = NOW(),
+		SET
+		regDate = NOW(),
 		updateDate = NOW(),
 		title = #{title},
-		body = #{body}
+		`body` = #{body}
 	</insert>
 
 	<delete id="deleteArticle" parameterType="int">
@@ -20,9 +21,11 @@
 
 	<update id="modifyArticle" parameterType="map">
 		UPDATE article
-		SET updateDate = NOW(),
-		title = #{title},
-		body = #{body}
+		<set>
+			<if test="title != null and title != ''">title = #{title},</if>
+			<if test="body != null and body != ''">`body` = #{body},</if>
+			updateDate = NOW()
+		</set>
 		WHERE id = #{id}
 	</update>
 
