@@ -20,6 +20,12 @@
 	<select id="getLastInsertId" parameterType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
+	
+	<select id="getMemberByLoginId" parameterType="string"
+		resultType="com.example.demo.vo.Member">
+		SELECT * FROM `member`
+		WHERE loginId = #{loginId}
+	</select>
 
 	<select id="getMemberById" parameterType="int"
 		resultType="com.example.demo.vo.Member">
