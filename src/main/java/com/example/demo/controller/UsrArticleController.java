@@ -13,13 +13,11 @@ import com.example.demo.vo.Article;
 @Controller
 public class UsrArticleController {
 
-	private final DemoApplication demoApplication;
-
 	@Autowired
 	private ArticleService articleService;
 
-	UsrArticleController(DemoApplication demoApplication) {
-		this.demoApplication = demoApplication;
+	UsrArticleController() {
+
 	}
 
 	// 액션메서드
