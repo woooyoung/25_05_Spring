@@ -10,11 +10,49 @@ import com.example.demo.util.Ut;
 import com.example.demo.vo.Member;
 import com.example.demo.vo.ResultData;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class UsrMemberController {
 
 	@Autowired
 	private MemberService memberService;
+
+	@RequestMapping("/usr/member/doLogin")
+	@ResponseBody
+	public ResultData<Member> doLogin(HttpSession session, String loginId, String loginPw) {
+
+		boolean isLogined = false;
+
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+		}
+
+		if (isLogined) {
+			return ResultData.from("F-A", "이미 로그인 함");
+		}
+
+		if (Ut.isEmptyOrNull(loginId)) {
+			return ResultData.from("F-1", "아이디를 입력해");
+		}
+		if (Ut.isEmptyOrNull(loginPw)) {
+			return ResultData.from("F-2", "비밀번호를 입력해");
+		}
+
+		Member member = memberService.getMemberByLoginId(loginId);
+
+		if (member == null) {
+			return ResultData.from("F-3", Ut.f("%s는(은) 없는 아이디야", loginId));
+		}
+
+		if (member.getLoginPw().equals(loginPw) == false) {
+			return ResultData.from("F-4", "비밀번호가 일치하지 않습니다");
+		}
+
+		session.setAttribute("loginedMemberId", member.getId());
+
+		return ResultData.from("S-1", Ut.f("%s님 환영합니다", member.getNickname()));
+	}
 
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
