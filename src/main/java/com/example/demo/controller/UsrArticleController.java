@@ -20,6 +20,7 @@ public class UsrArticleController {
 	@Autowired
 	private ArticleService articleService;
 
+	// 로그인 체크 -> 유무 체크 -> 권한체크
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData doModify(HttpSession session, int id, String title, String body) {
@@ -38,11 +39,13 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id), id);
 		}
 
+		ResultData loginedMemberCanModifyRd = articleService.loginedMemberCanModify(loginedMemberId, article);
+
 		articleService.modifyArticle(id, title, body);
 
 		article = articleService.getArticleById(id);
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글이 수정됨", id), article);
+		return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg(), article);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
@@ -61,6 +64,10 @@ public class UsrArticleController {
 
 		if (article == null) {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id), id);
+		}
+
+		if (article.getMemberId() != loginedMemberId) {
+			return ResultData.from("F-A", "권한없음");
 		}
 
 		articleService.deleteArticle(id);
