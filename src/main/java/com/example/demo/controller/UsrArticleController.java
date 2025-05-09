@@ -36,7 +36,7 @@ public class UsrArticleController {
 		Article article = articleService.getArticleById(id);
 
 		if (article == null) {
-			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id), id);
+			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id), "없는 글의 id", id);
 		}
 
 		ResultData loginedMemberCanModifyRd = articleService.loginedMemberCanModify(loginedMemberId, article);
@@ -45,7 +45,8 @@ public class UsrArticleController {
 
 		article = articleService.getArticleById(id);
 
-		return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg(), article);
+		return ResultData.from(loginedMemberCanModifyRd.getResultCode(), loginedMemberCanModifyRd.getMsg(), "수정된 글",
+				article);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
@@ -63,7 +64,7 @@ public class UsrArticleController {
 		Article article = articleService.getArticleById(id);
 
 		if (article == null) {
-			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id), id);
+			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id));
 		}
 
 		if (article.getMemberId() != loginedMemberId) {
@@ -72,7 +73,7 @@ public class UsrArticleController {
 
 		articleService.deleteArticle(id);
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제됨", id), id);
+		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제됨", id));
 	}
 
 	@RequestMapping("/usr/article/getArticle")
@@ -85,7 +86,7 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id));
 		}
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글입니다", id), article);
+		return ResultData.from("S-1", Ut.f("%d번 게시글입니다", id), "게시글 1row", article);
 	}
 
 	@RequestMapping("/usr/article/doWrite")
@@ -118,13 +119,13 @@ public class UsrArticleController {
 
 		Article article = articleService.getArticleById(id);
 
-		return ResultData.newData(doWriteRd, article);
+		return ResultData.newData(doWriteRd, "새로 작성된 게시글", article);
 	}
 
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
 	public ResultData<List<Article>> getArticles() {
 		List<Article> articles = articleService.getArticles();
-		return ResultData.from("S-1", "Article List", articles);
+		return ResultData.from("S-1", "Article List", "게시글 리스트", articles);
 	}
 }

@@ -70,7 +70,7 @@ public class UsrMemberController {
 
 		session.setAttribute("loginedMemberId", member.getId());
 
-		return ResultData.from("S-1", Ut.f("%s님 환영합니다", member.getNickname()), member);
+		return ResultData.from("S-1", Ut.f("%s님 환영합니다", member.getNickname()), "로그인 한 회원", member);
 	}
 
 	@RequestMapping("/usr/member/doJoin")
@@ -120,7 +120,7 @@ public class UsrMemberController {
 
 		Member member = memberService.getMemberById((int) doJoinRd.getData1());
 
-		return ResultData.newData(doJoinRd, member);
+		return ResultData.newData(doJoinRd, "새로 생성된 memebr", member);
 	}
 
 }
