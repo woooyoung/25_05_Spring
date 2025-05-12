@@ -77,17 +77,18 @@ public class UsrArticleController {
 		return ResultData.from("S-1", Ut.f("%d번 게시글이 삭제됨", id));
 	}
 
-	@RequestMapping("/usr/article/getArticle")
-	@ResponseBody
-	public ResultData<Article> getArticle(int id) {
+	@RequestMapping("/usr/article/detail")
+	public String showDetail(Model model, int id) {
 
 		Article article = articleService.getArticleById(id);
 
-		if (article == null) {
-			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id));
-		}
+//		if (article == null) {
+//			return ResultData.from("F-1", Ut.f("%d번 게시글은 없습니다", id));
+//		}
 
-		return ResultData.from("S-1", Ut.f("%d번 게시글입니다", id), "게시글 1row", article);
+		model.addAttribute("article", article);
+
+		return "usr/article/detail";
 	}
 
 	@RequestMapping("/usr/article/doWrite")
