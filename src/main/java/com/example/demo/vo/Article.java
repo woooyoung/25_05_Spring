@@ -20,4 +20,5 @@ public class Article {
 
 	private String extra__writer;
 	private boolean userCanModify;
+	private boolean userCanDelete;
 }
