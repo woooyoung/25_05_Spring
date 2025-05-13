@@ -18,6 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UsrArticleController {
+	
+	@Autowired
+	private Rq rq;
 
 	@Autowired
 	private ArticleService articleService;
