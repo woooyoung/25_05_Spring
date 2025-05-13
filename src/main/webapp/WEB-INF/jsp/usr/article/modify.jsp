@@ -9,7 +9,7 @@
 	<div class="mx-auto">
 		<form action="../article/doModify" method="POST">
 			<input type="hidden" name="id" value="${article.id}" />
-			<table border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
+			<table class="table"  border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
 				<tbody>
 					<tr>
 						<th style="text-align: center;">ID</th>
@@ -30,19 +30,21 @@
 					<tr>
 						<th style="text-align: center;">Title</th>
 						<td style="text-align: center;">
-							<input required="required" name="title" value="${article.title }" type="text" autocomplete="off" placeholder="새 제목" />
+							<input class="input input-primary input-sm" required="required" name="title" value="${article.title }" type="text"
+								autocomplete="off" placeholder="새 제목" />
 						</td>
 					</tr>
 					<tr>
 						<th style="text-align: center;">Body</th>
 						<td style="text-align: center;">
-							<input required="required" name="body" value="${article.body }" type="text" autocomplete="off" placeholder="새 내용" />
+							<input class="input input-primary input-sm" required="required" name="body" value="${article.body }" type="text"
+								autocomplete="off" placeholder="새 내용" />
 						</td>
 					</tr>
 					<tr>
 						<th></th>
 						<td style="text-align: center;">
-							<input type="submit" value="수정" />
+							<button class="btn btn-primary">수정</button>
 						</td>
 					</tr>
 
@@ -50,9 +52,9 @@
 			</table>
 		</form>
 		<div class="btns">
-			<button type="button" onclick="history.back();">뒤로가기</button>
+			<button class="btn btn-ghost" type="button" onclick="history.back();">뒤로가기</button>
 			<c:if test="${article.userCanDelete }">
-				<a href="../article/doDelete?id=${article.id}">삭제</a>
+				<a class="btn btn-ghost" href="../article/doDelete?id=${article.id}">삭제</a>
 			</c:if>
 		</div>
 

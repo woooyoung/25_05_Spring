@@ -17,6 +17,9 @@
 <!-- 테일윈드 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.4/tailwind.min.css">
 <!-- 테일윈드 치트시트 : https://nerdcave.com/tailwind-cheat-sheet -->
+
+<!-- 데이지 UI -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.12.23/full.css" />
 </head>
 <body>
 
