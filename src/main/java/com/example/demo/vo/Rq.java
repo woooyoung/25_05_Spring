@@ -12,50 +12,48 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
+import lombok.Setter;
 
 @Component
 @Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Getter
+@Setter
 public class Rq {
 
-	@Getter
-	private boolean isLogined;
-	@Getter
-	private int loginedMemberId;
+	private final HttpServletRequest req;
+	private final HttpServletResponse resp;
+	private final HttpSession session;
 
-	private HttpServletRequest req;
-	private HttpServletResponse resp;
-
-	private HttpSession session;
+	private boolean isLogined = false;
+	private int loginedMemberId = 0;
 
 	public Rq(HttpServletRequest req, HttpServletResponse resp) {
 		this.req = req;
 		this.resp = resp;
 		this.session = req.getSession();
 
-		HttpSession httpSession = req.getSession();
-
-		if (httpSession.getAttribute("loginedMemberId") != null) {
+		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
-			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
 
 		this.req.setAttribute("rq", this);
 	}
 
 	public void printHistoryBack(String msg) throws IOException {
-		resp.setContentType("text/html; charset=UTF-8");
-		println("<script>");
-		if (!Ut.isEmpty(msg)) {
-			println("alert('" + msg + "');");
-		}
-		println("history.back();");
-		println("</script>");
-
+	    resp.setContentType("text/html; charset=UTF-8");
+	    println("<script>");
+	    if (!Ut.isEmpty(msg)) {
+	    	println("alert('" + msg.replace("'", "\\'") + "');");
+	    }
+	    println("history.back();");
+	    println("</script>");
+	    resp.getWriter().flush();
+	    resp.getWriter().close();
 	}
 
 	private void println(String str) throws IOException {
 		print(str + "\n");
-
 	}
 
 	private void print(String str) throws IOException {
@@ -73,5 +71,4 @@ public class Rq {
 	public void initBeforeActionInterceptor() {
 		System.err.println("initBeforeActionInterceptor 실행됨");
 	}
-
 }
