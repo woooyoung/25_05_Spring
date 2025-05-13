@@ -21,6 +21,21 @@ li {
 	list-style: none;
 }
 
-header > div > ul > li {
+header>div>ul>li {
 	margin-right: 30px;
+}
+
+/*네비게이션 2차메뉴 */
+header>div>ul>li>ul>li {
+	padding-bottom: 30px;
+}
+
+header>div>ul>li>ul {
+	background-color: white;
+	display: none;
+	position: absolute;
+}
+
+header>div>ul>li:hover>ul {
+	display: block;
 }
