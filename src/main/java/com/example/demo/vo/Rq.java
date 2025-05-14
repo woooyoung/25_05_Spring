@@ -41,15 +41,15 @@ public class Rq {
 	}
 
 	public void printHistoryBack(String msg) throws IOException {
-	    resp.setContentType("text/html; charset=UTF-8");
-	    println("<script>");
-	    if (!Ut.isEmpty(msg)) {
-	    	println("alert('" + msg.replace("'", "\\'") + "');");
-	    }
-	    println("history.back();");
-	    println("</script>");
-	    resp.getWriter().flush();
-	    resp.getWriter().close();
+		resp.setContentType("text/html; charset=UTF-8");
+		println("<script>");
+		if (!Ut.isEmpty(msg)) {
+			println("alert('" + msg.replace("'", "\\'") + "');");
+		}
+		println("history.back();");
+		println("</script>");
+		resp.getWriter().flush();
+		resp.getWriter().close();
 	}
 
 	private void println(String str) throws IOException {
@@ -70,5 +70,11 @@ public class Rq {
 
 	public void initBeforeActionInterceptor() {
 		System.err.println("initBeforeActionInterceptor 실행됨");
+	}
+
+	public String historyBackOnView(String msg) {
+		req.setAttribute("msg", msg);
+		req.setAttribute("historyBack", true);
+		return "usr/common/js";
 	}
 }

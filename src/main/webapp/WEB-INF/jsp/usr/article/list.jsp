@@ -28,6 +28,12 @@
 						<td style="text-align: center;">${article.extra__writer }</td>
 					</tr>
 				</c:forEach>
+
+				<c:if test="${empty articles }">
+					<tr>
+						<td colspan="4" style="text-align: center;">게시글이 없습니다</td>
+					</tr>
+				</c:if>
 			</tbody>
 		</table>
 	</div>

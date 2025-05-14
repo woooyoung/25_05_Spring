@@ -43,13 +43,13 @@ CREATE TABLE board (
 INSERT INTO board
 SET regDate = NOW(),
 updateDate = NOW(),
-`code` = 'notice',
+`code` = 'NOTICE',
 `name` = '공지사항';
 
 INSERT INTO board
 SET regDate = NOW(),
 updateDate = NOW(),
-`code` = 'free',
+`code` = 'FREE',
 `name` = '자유';
 
 INSERT INTO board
@@ -166,6 +166,10 @@ FROM board;
 
 
 ######################################################################
+
+SELECT *
+		FROM board
+		WHERE id =2
 
 SELECT LAST_INSERT_ID();
 

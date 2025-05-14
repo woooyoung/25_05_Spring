@@ -10,6 +10,18 @@
 		<form action="../article/doWrite" method="POST">
 			<table class="table" border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
 				<tbody>
+
+					<tr>
+						<th style="text-align: center;">게시판</th>
+						<td style="text-align: center;">
+							<select name="boardId">
+								<option value="" selected disabled>게시판을 선택해주세요</option>
+								<option value="1">공지사항</option>
+								<option value="2">자유</option>
+								<option value="3">QnA</option>
+							</select>
+						</td>
+					</tr>
 					<tr>
 						<th style="text-align: center;">제목</th>
 						<td style="text-align: center;">
