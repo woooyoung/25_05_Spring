@@ -38,6 +38,14 @@
 			</tbody>
 		</table>
 	</div>
+	<div class="flex justify-center mt-4">
+		<div class="btn-group join ">
+
+			<c:forEach begin="1" end="${pagesCount }" var="i">
+				<a class="join-item btn btn-sm ${param.page == i ? 'btn-active' : ''}" href="?page=${i }">${i }</a>
+			</c:forEach>
+		</div>
+	</div>
 </section>
 
 
