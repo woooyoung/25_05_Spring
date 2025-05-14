@@ -7,6 +7,7 @@
 
 <section class="mt-24 text-xl px-4">
 	<div class="mx-auto">
+		<div>${articlesCount }개</div>
 		<table class="table" border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
 
 			<thead>

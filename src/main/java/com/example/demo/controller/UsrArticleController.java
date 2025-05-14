@@ -153,19 +153,24 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int boardId)
-			throws IOException {
+	public String showList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page) throws IOException {
 
-//		Rq rq = (Rq) req.getAttribute("rq");
+		Rq rq = (Rq) req.getAttribute("rq");
 
 		Board board = boardService.getBoardById(boardId);
 
 		if (board == null) {
-//			return rq.historyBackOnView("존재하지 않는 게시판");
+			return rq.historyBackOnView("존재하지 않는 게시판");
 		}
 
-		List<Article> articles = articleService.getForPrintArticles(boardId);
+		int articlesCount = articleService.getArticleCount(boardId);
 
+		int itemsInAPage = 10;
+
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsInAPage, page);
+
+		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 		model.addAttribute("board", board);
 
