@@ -38,11 +38,42 @@
 			</tbody>
 		</table>
 	</div>
+	<!-- 	동적 페이징 -->
+	<div class="flex justify-center mt-4">
+		<div class="btn-group join ">
+			<c:set var="paginationLen" value="3" />
+			<c:set var="startPage" value="${page - paginationLen >= 1 ? page - paginationLen : 1 }" />
+			<c:set var="endPage" value="${page + paginationLen <= pagesCount ? page + paginationLen : pagesCount}" />
+
+			<c:if test="${startPage > 1}">
+				<a class="join-item btn btn-sm" href="?page=1&boardId=${boardId}">1</a>
+			</c:if>
+
+			<c:if test="${startPage > 2}">
+				<button class="join-item btn btn-sm btn-disabled">...</button>
+			</c:if>
+
+
+			<c:forEach begin="${startPage }" end="${endPage }" var="i">
+				<a class="join-item btn btn-sm ${param.page == i ? 'btn-active' : ''}" href="?page=${i }&boardId=${boardId}">${i }</a>
+			</c:forEach>
+
+			<c:if test="${endPage < pagesCount - 1}">
+				<button class="join-item btn-sm btn btn-disabled">...</button>
+			</c:if>
+
+			<c:if test="${endPage < pagesCount}">
+				<a class="join-item btn btn-sm" href="?page=${pagesCount }&boardId=${boardId}">${pagesCount }</a>
+			</c:if>
+		</div>
+	</div>
+
+	<!-- 	직관적인 페이징 -->
 	<div class="flex justify-center mt-4">
 		<div class="btn-group join ">
 
 			<c:forEach begin="1" end="${pagesCount }" var="i">
-				<a class="join-item btn btn-sm ${param.page == i ? 'btn-active' : ''}" href="?page=${i }">${i }</a>
+				<a class="join-item btn btn-sm ${param.page == i ? 'btn-active' : ''}" href="?page=${i }&boardId=${param.boardId}">${i }</a>
 			</c:forEach>
 		</div>
 	</div>
