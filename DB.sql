@@ -150,10 +150,16 @@ UPDATE article
 SET boardId = 3
 WHERE id = 5;
 
+alter table article add column hitCount int(10) unsigned not null default 0 after `body`;
+
 
 ######################################################################
 
 SELECT *
+FROM article
+ORDER BY id DESC;
+
+SELECT count(*)
 FROM article
 ORDER BY id DESC;
 
@@ -166,6 +172,34 @@ FROM board;
 
 
 ######################################################################
+
+update article 
+set hitCount = 1
+where id = 1000;
+
+'111'
+
+SELECT COUNT(*) as cnt
+FROM article
+where boardId = 1 and title like '%11%';
+
+SELECT *
+FROM article
+where boardId = 3 and title like '%12%';
+
+SELECT *
+FROM article
+WHERE boardId = 1 AND `body` LIKE '%13%';
+
+SELECT *
+FROM article
+WHERE boardId = 1 AND title like '%111%' or `body` LIKE '%111%';
+
+
+SELECT *
+FROM article
+where boardId = 1 AND title LIKE '%11%'
+ORDER BY id DESC;
 
 # 게시글 데이터 대량 생성
 INSERT INTO article

@@ -40,7 +40,11 @@
 		WHERE id = #{id}
 	</update>
 
-
+	<select id="getArticleHitCount" parameterType="int">
+		SELECT hitCount
+		FROM article
+		WHERE id = #{id}
+	</select>
 
 	<select id="getArticleCount" parameterType="int">
 		SELECT COUNT(*) , M.nickname AS extra__writer
