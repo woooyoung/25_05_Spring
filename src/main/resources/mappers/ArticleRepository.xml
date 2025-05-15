@@ -40,6 +40,20 @@
 		<if test="boardId != 0">
 			AND boardId = #{boardId}
 		</if>
+		<if test="searchKeyword != ''">
+			<choose>
+				<when test="searchKeywordTypeCode == 'title'">
+					AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+				</when>
+				<when test="searchKeywordTypeCode == 'body'">
+					AND `body` LIKE CONCAT('%', #{searchKeyword}, '%')
+				</when>
+				<otherwise>
+					AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+					OR `body` LIKE CONCAT('%', #{searchKeyword}, '%')
+				</otherwise>
+			</choose>
+		</if>
 	</select>
 
 	<select id="getLastInsertId" parameterType="int">

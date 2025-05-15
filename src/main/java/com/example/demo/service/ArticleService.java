@@ -94,8 +94,8 @@ public class ArticleService {
 		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake);
 	}
 
-	public int getArticleCount(int boardId) {
-		return articleRepository.getArticleCount(boardId);
+	public int getArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
+		return articleRepository.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
 }
