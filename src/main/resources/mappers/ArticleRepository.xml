@@ -33,6 +33,15 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="increaseHitCount" parameterType="int">
+		UPDATE article
+		SET
+		hitCount = hitCount + 1
+		WHERE id = #{id}
+	</update>
+
+
+
 	<select id="getArticleCount" parameterType="int">
 		SELECT COUNT(*) , M.nickname AS extra__writer
 		FROM article AS A
@@ -52,7 +61,8 @@
 					AND A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
 				</when>
 				<when test="searchKeywordTypeCode == 'nickname'">
-					AND M.nickname LIKE CONCAT('%', #{searchKeyword}, '%')
+					AND M.nickname LIKE CONCAT('%', #{searchKeyword},
+					'%')
 				</when>
 				<otherwise>
 					AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')

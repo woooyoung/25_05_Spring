@@ -21,8 +21,9 @@
 						<option value="body">body</option>
 						<option value="title,body">title+body</option>
 						<option value="nickname">nicnkname</option>
-					</select> <label class="ml-3 input input-bordered input-sm flex items-center gap-2"> <input type="text"
-						placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
+					</select>
+					<label class="ml-3 input input-bordered input-sm flex items-center gap-2">
+						<input type="text" placeholder="Search" name="searchKeyword" value="${param.searchKeyword }" />
 						<button type="submit">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
     <path fill-rule="evenodd"
@@ -42,6 +43,7 @@
 					<th style="text-align: center;">Registration Date</th>
 					<th style="text-align: center;">Title</th>
 					<th style="text-align: center;">Writer</th>
+					<th style="text-align: center;">VIEWS</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,6 +55,7 @@
 							<a class="hover:underline" href="detail?id=${article.id }">${article.title }</a>
 						</td>
 						<td style="text-align: center;">${article.extra__writer }</td>
+						<td style="text-align: center;">${article.hitCount }</td>
 					</tr>
 				</c:forEach>
 
