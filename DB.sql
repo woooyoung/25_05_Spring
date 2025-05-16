@@ -152,6 +152,63 @@ WHERE id = 5;
 
 alter table article add column hitCount int(10) unsigned not null default 0 after `body`;
 
+# reactionPoint 테이블 생성
+
+CREATE TABLE reactionPoint (
+	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	memberId int(10) unsigned not null,
+	relTypeCode char(50) not null comment '관련 데이터 타입 코드',
+	relId int(10) not null comment '관련 데이터 번호',
+	`point` int(10) not null
+);
+
+# reactionPoint 테스트 데이터 생성
+# 1번 회원이 1번 글에 싫어요
+insert into reactionPoint
+set regDate = now(),
+updateDate = now(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 1,
+`point` = -1;
+
+# 1번 회원이 2번 글에 좋아요
+insert into reactionPoint
+set regDate = now(),
+updateDate = now(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 2,
+`point` = 1;
+
+# 2번 회원이 1번 글에 싫어요
+insert into reactionPoint
+set regDate = now(),
+updateDate = now(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 1,
+`point` = -1;
+
+# 2번 회원이 2번 글에 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 2,
+`point` = -1;
+
+# 3번 회원이 1번 글에 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article',
+relId = 1,
+`point` = 1;
 
 ######################################################################
 
@@ -169,9 +226,18 @@ FROM `member`;
 SELECT *
 FROM board;
 
+SELECT *
+FROM reactionPoint;
+
+
 
 
 ######################################################################
+
+select hitCount
+from article
+where id = 1;
+
 
 update article 
 set hitCount = 1
