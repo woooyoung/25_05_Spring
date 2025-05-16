@@ -26,7 +26,7 @@
 
 	$(function() {
 		ArticleDetail__doIncreaseHitCount();
-// 		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
+		// 		setTimeout(ArticleDetail__doIncreaseHitCount, 2000);
 
 	})
 </script>
@@ -54,6 +54,18 @@
 				<tr>
 					<th style="text-align: center;">BoardId</th>
 					<td style="text-align: center;">${article.boardId }</td>
+				</tr>
+				<tr>
+					<th style="text-align: center;">LIKE</th>
+					<td style="text-align: center;">${article.extra__goodReactionPoint }</td>
+				</tr>
+				<tr>
+					<th style="text-align: center;">DISLIKE</th>
+					<td style="text-align: center;">${article.extra__badReactionPoint }</td>
+				</tr>
+				<tr>
+					<th style="text-align: center;">SUM</th>
+					<td style="text-align: center;">${article.extra__sumReactionPoint }</td>
 				</tr>
 				<tr>
 					<th style="text-align: center;">VIEWS</th>

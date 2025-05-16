@@ -17,14 +17,14 @@ CREATE TABLE `member` (
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
 	loginId CHAR(30) NOT NULL,
-	loginPw char(100) NOT NULL,
-	`authLevel` smallint(2) unsigned default 3 comment '권한 레벨 (3=일반,7=관리자)', 
-	`name` char(20) NOT NULL,
-	nickname char(20) NOT NULL,
-	cellphoneNum char(20) NOT NULL,
-	email char(20) NOT NULL,
-	delStatus tinyint(1) unsigned not null default 0 comment '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
-	delDate datetime comment '탈퇴 날짜'
+	loginPw CHAR(100) NOT NULL,
+	`authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (3=일반,7=관리자)', 
+	`name` CHAR(20) NOT NULL,
+	nickname CHAR(20) NOT NULL,
+	cellphoneNum CHAR(20) NOT NULL,
+	email CHAR(20) NOT NULL,
+	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
+	delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
 
@@ -33,7 +33,7 @@ CREATE TABLE board (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	`code` CHAR(50) NOT NULL unique comment 'notice(공지사항) free(자유) QnA(질의응답)...',
+	`code` CHAR(50) NOT NULL UNIQUE COMMENT 'notice(공지사항) free(자유) QnA(질의응답)...',
 	`name` CHAR(20) NOT NULL UNIQUE COMMENT '게시판 이름',
 	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제 여부 (0=삭제 전, 1=삭제 후)',
 	delDate DATETIME COMMENT '삭제 날짜'
@@ -125,32 +125,32 @@ cellphoneNum = '01056785678',
 email = 'abcde@gmail.com';
 
 # memberId 추가
-alter table article add column memberId int(10) unsigned not null after updateDate;
+ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
 
-update article 
-set memberId = 2
-where id in (1,2);
+UPDATE article 
+SET memberId = 2
+WHERE id IN (1,2);
 
 UPDATE article 
 SET memberId = 3
-WHERE id in (3,4,5);
+WHERE id IN (3,4,5);
 
 # boardId 추가
-alter table article add column boardId int(10) not null after `memberId`;
+ALTER TABLE article ADD COLUMN boardId INT(10) NOT NULL AFTER `memberId`;
 
 UPDATE article 
 SET boardId = 1
-WHERE id in (1,2);
+WHERE id IN (1,2);
 
 UPDATE article 
 SET boardId = 2
-WHERE id in (3,4);
+WHERE id IN (3,4);
 
 UPDATE article 
 SET boardId = 3
 WHERE id = 5;
 
-alter table article add column hitCount int(10) unsigned not null default 0 after `body`;
+ALTER TABLE article ADD COLUMN hitCount INT(10) UNSIGNED NOT NULL DEFAULT 0 AFTER `body`;
 
 # reactionPoint 테이블 생성
 
@@ -158,35 +158,35 @@ CREATE TABLE reactionPoint (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	memberId int(10) unsigned not null,
-	relTypeCode char(50) not null comment '관련 데이터 타입 코드',
-	relId int(10) not null comment '관련 데이터 번호',
-	`point` int(10) not null
+	memberId INT(10) UNSIGNED NOT NULL,
+	relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
+	relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
+	`point` INT(10) NOT NULL
 );
 
 # reactionPoint 테스트 데이터 생성
 # 1번 회원이 1번 글에 싫어요
-insert into reactionPoint
-set regDate = now(),
-updateDate = now(),
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
 memberId = 1,
 relTypeCode = 'article',
 relId = 1,
 `point` = -1;
 
 # 1번 회원이 2번 글에 좋아요
-insert into reactionPoint
-set regDate = now(),
-updateDate = now(),
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
 memberId = 1,
 relTypeCode = 'article',
 relId = 2,
 `point` = 1;
 
 # 2번 회원이 1번 글에 싫어요
-insert into reactionPoint
-set regDate = now(),
-updateDate = now(),
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
 memberId = 2,
 relTypeCode = 'article',
 relId = 1,
@@ -216,7 +216,7 @@ SELECT *
 FROM article
 ORDER BY id DESC;
 
-SELECT count(*)
+SELECT COUNT(*)
 FROM article
 ORDER BY id DESC;
 
@@ -234,24 +234,110 @@ FROM reactionPoint;
 
 ######################################################################
 
-select hitCount
-from article
-where id = 1;
+SELECT A.*, M.nickname AS extra__writer
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+WHERE A.id = 1;
+
+SELECT *
+FROM reactionPoint;
+
+# LEFT JOIN
+SELECT A.*, M.nickname AS extra__writer, RP.point
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+LEFT JOIN reactionPoint AS RP
+ON A.id = RP.relId AND RP.relTypeCode = 'article'
+GROUP BY A.id
+ORDER BY A.id DESC;
+
+# 서브쿼리
+SELECT A.*, 
+IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
+IFNULL(SUM(IF(RP.point > 0, RP.point, 0)),0) AS extra__goodReactionPoint,
+IFNULL(SUM(IF(RP.point < 0, RP.point, 0)),0) AS extra__badReactionPoint
+FROM (
+	SELECT A.*, M.nickname AS extra__writer 
+	FROM article AS A
+	INNER JOIN `member` AS M
+	ON A.memberId = M.id) AS A
+LEFT JOIN reactionPoint AS RP
+ON A.id = RP.relId AND RP.relTypeCode = 'article'
+GROUP BY A.id
+ORDER BY A.id DESC;
+
+# JOIN
+SELECT A.*, M.nickname AS extra__writer,
+IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
+IFNULL(SUM(IF(RP.point > 0, RP.point, 0)),0) AS extra__goodReactionPoint,
+IFNULL(SUM(IF(RP.point < 0, RP.point, 0)),0) AS extra__badReactionPoint
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+LEFT JOIN reactionPoint AS RP
+ON A.id = RP.relId AND RP.relTypeCode = 'article'
+GROUP BY A.id
+ORDER BY A.id DESC;
 
 
-update article 
-set hitCount = 1
-where id = 1000;
+SELECT A.*, M.nickname AS extra__writer,
+		IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
+		IFNULL(SUM(IF(RP.point > 0, RP.point, 0)),0) AS
+		extra__goodReactionPoint,
+		IFNULL(SUM(IF(RP.point < 0, RP.point, 0)),0) AS extra__badReactionPoint
+		FROM article AS A
+		INNER JOIN `member` AS M
+		ON A.memberId = M.id
+		LEFT JOIN reactionPoint AS RP
+		ON A.id = RP.relId AND RP.relTypeCode = 'article'
+		WHERE A.id = 1
+
+
+SELECT A.*, M.nickname AS extra__writer, RP.point
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+LEFT JOIN reactionPoint AS RP
+ON A.id = RP.relId AND RP.relTypeCode = 'article'
+WHERE A.id = 1;
+
+SELECT A.*, M.nickname AS extra__writer, RP.point
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+INNER JOIN reactionPoint AS RP
+ON A.id = RP.relId AND RP.relTypeCode = 'article'
+WHERE A.id = 2;
+
+SELECT A.*, M.nickname AS extra__writer, RP.point
+FROM article AS A
+INNER JOIN `member` AS M
+ON A.memberId = M.id
+INNER JOIN reactionPoint AS RP
+ON A.id = RP.relId AND RP.relTypeCode = 'article'
+WHERE A.id = 3;
+
+
+SELECT hitCount
+FROM article
+WHERE id = 1;
+
+
+UPDATE article 
+SET hitCount = 1
+WHERE id = 1000;
 
 '111'
 
-SELECT COUNT(*) as cnt
+SELECT COUNT(*) AS cnt
 FROM article
-where boardId = 1 and title like '%11%';
+WHERE boardId = 1 AND title LIKE '%11%';
 
 SELECT *
 FROM article
-where boardId = 3 and title like '%12%';
+WHERE boardId = 3 AND title LIKE '%12%';
 
 SELECT *
 FROM article
@@ -259,12 +345,12 @@ WHERE boardId = 1 AND `body` LIKE '%13%';
 
 SELECT *
 FROM article
-WHERE boardId = 1 AND title like '%111%' or `body` LIKE '%111%';
+WHERE boardId = 1 AND title LIKE '%111%' OR `body` LIKE '%111%';
 
 
 SELECT *
 FROM article
-where boardId = 1 AND title LIKE '%11%'
+WHERE boardId = 1 AND title LIKE '%11%'
 ORDER BY id DESC;
 
 # 게시글 데이터 대량 생성
