@@ -154,4 +154,12 @@ public class ArticleService {
 		return ResultData.from("S-1", "싫어요 감소", "affectedRow", affectedRow);
 	}
 
+	public int getGoodRP(int relId) {
+		return articleRepository.getGoodRP(relId);
+	}
+
+	public int getBadRP(int relId) {
+		return articleRepository.getBadRP(relId);
+	}
+
 }
