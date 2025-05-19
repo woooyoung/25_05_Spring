@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.interceptor.BeforeActionInterceptor;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.BoardService;
+import com.example.demo.service.ReactionPointService;
 import com.example.demo.util.Ut;
 import com.example.demo.vo.Article;
 import com.example.demo.vo.Board;
@@ -33,6 +34,9 @@ public class UsrArticleController {
 
 	@Autowired
 	private BoardService boardService;
+
+	@Autowired
+	private ReactionPointService reactionPointService;
 
 	UsrArticleController(BeforeActionInterceptor beforeActionInterceptor) {
 		this.beforeActionInterceptor = beforeActionInterceptor;
@@ -114,7 +118,12 @@ public class UsrArticleController {
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
+		// -1 싫어요, 0 표현 x, 1 좋아요
+		int userCanReaction = reactionPointService.userCanReaction(rq.getLoginedMemberId(), "article", id);
+		System.out.println(userCanReaction);
+
 		model.addAttribute("article", article);
+		model.addAttribute("userCanReaction", userCanReaction);
 
 		return "usr/article/detail";
 	}

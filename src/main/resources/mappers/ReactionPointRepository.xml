@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.example.demo.repository.ReactionPointRepository">
+
+	<select id="getSumReactionPoint">
+		SELECT IFNULL(SUM(RP.point),0)
+		FROM reactionPoint AS
+		RP
+		WHERE RP.relTypeCode = #{relTypeCode}
+		AND RP.relId = #{relId}
+		AND
+		RP.memberId = #{loginedMemberId};
+	</select>
+
+</mapper>

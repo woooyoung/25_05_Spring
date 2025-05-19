@@ -56,17 +56,13 @@
 					<td style="text-align: center;">${article.boardId }</td>
 				</tr>
 				<tr>
-					<th style="text-align: center;">LIKE</th>
-					<td style="text-align: center;">${article.extra__goodReactionPoint }</td>
+					<th style="text-align: center;">LIKE / DISLIKE</th>
+					<td style="text-align: center;">
+						<button class="btn btn-outline btn-success">👍 LIKE ${article.goodReactionPoint }</button>
+						<button class="btn btn-outline btn-error">👎 DISLIKE ${article.badReactionPoint }</button>
+					</td>
 				</tr>
-				<tr>
-					<th style="text-align: center;">DISLIKE</th>
-					<td style="text-align: center;">${article.extra__badReactionPoint }</td>
-				</tr>
-				<tr>
-					<th style="text-align: center;">SUM</th>
-					<td style="text-align: center;">${article.extra__sumReactionPoint }</td>
-				</tr>
+
 				<tr>
 					<th style="text-align: center;">VIEWS</th>
 					<td style="text-align: center;">

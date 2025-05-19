@@ -276,27 +276,27 @@ IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
 IFNULL(SUM(IF(RP.point > 0, RP.point, 0)),0) AS extra__goodReactionPoint,
 IFNULL(SUM(IF(RP.point < 0, RP.point, 0)),0) AS extra__badReactionPoint
 FROM (
-	SELECT A.*, M.nickname AS extra__writer 
-	FROM article AS A
-	INNER JOIN `member` AS M
-	ON A.memberId = M.id) AS A
-LEFT JOIN reactionPoint AS RP
-ON A.id = RP.relId AND RP.relTypeCode = 'article'
-GROUP BY A.id
-ORDER BY A.id DESC;
+	select A.*, M.nickname as extra__writer 
+	from article AS A
+	inner join `member` as M
+	on A.memberId = M.id) as A
+left join reactionPoint as RP
+on A.id = RP.relId and RP.relTypeCode = 'article'
+group by A.id
+order by A.id desc;
 
 # JOIN
 SELECT A.*, M.nickname AS extra__writer,
-IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
-IFNULL(SUM(IF(RP.point > 0, RP.point, 0)),0) AS extra__goodReactionPoint,
-IFNULL(SUM(IF(RP.point < 0, RP.point, 0)),0) AS extra__badReactionPoint
-FROM article AS A
-INNER JOIN `member` AS M
-ON A.memberId = M.id
-LEFT JOIN reactionPoint AS RP
-ON A.id = RP.relId AND RP.relTypeCode = 'article'
-GROUP BY A.id
-ORDER BY A.id DESC;
+ifnull(sum(RP.point),0) as extra__sumReactionPoint,
+IFNULL(SUM(if(RP.point > 0, RP.point, 0)),0) AS extra__goodReactionPoint,
+IFNULL(SUM(if(RP.point < 0, RP.point, 0)),0) AS extra__badReactionPoint
+from article AS A
+inner join `member` as M
+on A.memberId = M.id
+left join reactionPoint as RP
+on A.id = RP.relId and RP.relTypeCode = 'article'
+group by A.id
+order by A.id desc;
 
 
 SELECT A.*, M.nickname AS extra__writer,
@@ -316,8 +316,8 @@ SELECT A.*, M.nickname AS extra__writer, RP.point
 FROM article AS A
 INNER JOIN `member` AS M
 ON A.memberId = M.id
-LEFT JOIN reactionPoint AS RP
-ON A.id = RP.relId AND RP.relTypeCode = 'article'
+left join reactionPoint as RP
+on A.id = RP.relId and RP.relTypeCode = 'article'
 WHERE A.id = 1;
 
 SELECT A.*, M.nickname AS extra__writer, RP.point
@@ -337,24 +337,24 @@ ON A.id = RP.relId AND RP.relTypeCode = 'article'
 WHERE A.id = 3;
 
 
-SELECT hitCount
-FROM article
-WHERE id = 1;
+select hitCount
+from article
+where id = 1;
 
 
-UPDATE article 
-SET hitCount = 1
-WHERE id = 1000;
+update article 
+set hitCount = 1
+where id = 1000;
 
 '111'
 
-SELECT COUNT(*) AS cnt
+SELECT COUNT(*) as cnt
 FROM article
-WHERE boardId = 1 AND title LIKE '%11%';
+where boardId = 1 and title like '%11%';
 
 SELECT *
 FROM article
-WHERE boardId = 3 AND title LIKE '%12%';
+where boardId = 3 and title like '%12%';
 
 SELECT *
 FROM article
@@ -362,12 +362,12 @@ WHERE boardId = 1 AND `body` LIKE '%13%';
 
 SELECT *
 FROM article
-WHERE boardId = 1 AND title LIKE '%111%' OR `body` LIKE '%111%';
+WHERE boardId = 1 AND title like '%111%' or `body` LIKE '%111%';
 
 
 SELECT *
 FROM article
-WHERE boardId = 1 AND title LIKE '%11%'
+where boardId = 1 AND title LIKE '%11%'
 ORDER BY id DESC;
 
 # 게시글 데이터 대량 생성
