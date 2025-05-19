@@ -6,15 +6,28 @@
 <mapper
 	namespace="com.example.demo.repository.ReactionPointRepository">
 
-	<insert id="increaseReactionPoint">
+	<insert id="addGoodReactionPoint">
 		INSERT INTO reactionPoint
 		SET
 		regDate = NOW(),
 		updateDate = NOW(),
-		memberId = #{loginedMemberId},
-		relTypeCode = #{relTypeCode},
+		memberId = #{memberId},
+		relTypeCode =
+		#{relTypeCode},
 		relId = #{relId},
 		`point` = 1;
+	</insert>
+
+	<insert id="addBadReactionPoint">
+		INSERT INTO reactionPoint
+		SET
+		regDate = NOW(),
+		updateDate = NOW(),
+		memberId = #{memberId},
+		relTypeCode =
+		#{relTypeCode},
+		relId = #{relId},
+		`point` = -1;
 	</insert>
 
 	<select id="getSumReactionPoint">
@@ -24,7 +37,14 @@
 		WHERE RP.relTypeCode = #{relTypeCode}
 		AND RP.relId = #{relId}
 		AND
-		RP.memberId = #{loginedMemberId};
+		RP.memberId = #{memberId};
 	</select>
+
+	<delete id="deleteReactionPoint">
+		DELETE FROM reactionPoint
+		WHERE memberId = #{memberId}
+		AND relTypeCode = #{relTypeCode}
+		AND relId = #{relId}
+	</delete>
 
 </mapper>
