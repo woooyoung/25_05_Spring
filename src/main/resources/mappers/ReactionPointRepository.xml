@@ -6,6 +6,17 @@
 <mapper
 	namespace="com.example.demo.repository.ReactionPointRepository">
 
+	<insert id="increaseReactionPoint">
+		INSERT INTO reactionPoint
+		SET
+		regDate = NOW(),
+		updateDate = NOW(),
+		memberId = #{loginedMemberId},
+		relTypeCode = #{relTypeCode},
+		relId = #{relId},
+		`point` = 1;
+	</insert>
+
 	<select id="getSumReactionPoint">
 		SELECT IFNULL(SUM(RP.point),0)
 		FROM reactionPoint AS
