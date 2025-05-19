@@ -40,6 +40,14 @@
 		WHERE id = #{id}
 	</update>
 
+	<update id="increaseGoodReactionPoint" parameterType="int">
+		UPDATE
+		article
+		SET
+		goodReactionPoint = goodReactionPoint + 1
+		WHERE id = #{relId}
+	</update>
+
 	<select id="getArticleHitCount" parameterType="int">
 		SELECT hitCount
 		FROM article
@@ -103,7 +111,8 @@
 		resultType="com.example.demo.vo.Article">
 		SELECT A.*, M.nickname AS extra__writer
 		FROM article AS A
-		INNER JOIN `member` AS M
+		INNER JOIN
+		`member` AS M
 		ON A.memberId = M.id
 		WHERE 1
 		<if test="boardId != 0">
