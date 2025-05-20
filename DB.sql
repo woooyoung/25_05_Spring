@@ -17,14 +17,14 @@ CREATE TABLE `member` (
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
 	loginId CHAR(30) NOT NULL,
-	loginPw CHAR(100) NOT NULL,
-	`authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (3=일반,7=관리자)', 
-	`name` CHAR(20) NOT NULL,
-	nickname CHAR(20) NOT NULL,
-	cellphoneNum CHAR(20) NOT NULL,
-	email CHAR(20) NOT NULL,
-	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
-	delDate DATETIME COMMENT '탈퇴 날짜'
+	loginPw char(100) NOT NULL,
+	`authLevel` smallint(2) unsigned default 3 comment '권한 레벨 (3=일반,7=관리자)', 
+	`name` char(20) NOT NULL,
+	nickname char(20) NOT NULL,
+	cellphoneNum char(20) NOT NULL,
+	email char(20) NOT NULL,
+	delStatus tinyint(1) unsigned not null default 0 comment '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
+	delDate datetime comment '탈퇴 날짜'
 );
 
 
@@ -33,7 +33,7 @@ CREATE TABLE board (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	`code` CHAR(50) NOT NULL UNIQUE COMMENT 'notice(공지사항) free(자유) QnA(질의응답)...',
+	`code` CHAR(50) NOT NULL unique comment 'notice(공지사항) free(자유) QnA(질의응답)...',
 	`name` CHAR(20) NOT NULL UNIQUE COMMENT '게시판 이름',
 	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제 여부 (0=삭제 전, 1=삭제 후)',
 	delDate DATETIME COMMENT '삭제 날짜'
@@ -125,32 +125,32 @@ cellphoneNum = '01056785678',
 email = 'abcde@gmail.com';
 
 # memberId 추가
-ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
+alter table article add column memberId int(10) unsigned not null after updateDate;
 
-UPDATE article 
-SET memberId = 2
-WHERE id IN (1,2);
+update article 
+set memberId = 2
+where id in (1,2);
 
 UPDATE article 
 SET memberId = 3
-WHERE id IN (3,4,5);
+WHERE id in (3,4,5);
 
 # boardId 추가
-ALTER TABLE article ADD COLUMN boardId INT(10) NOT NULL AFTER `memberId`;
+alter table article add column boardId int(10) not null after `memberId`;
 
 UPDATE article 
 SET boardId = 1
-WHERE id IN (1,2);
+WHERE id in (1,2);
 
 UPDATE article 
 SET boardId = 2
-WHERE id IN (3,4);
+WHERE id in (3,4);
 
 UPDATE article 
 SET boardId = 3
 WHERE id = 5;
 
-ALTER TABLE article ADD COLUMN hitCount INT(10) UNSIGNED NOT NULL DEFAULT 0 AFTER `body`;
+alter table article add column hitCount int(10) unsigned not null default 0 after `body`;
 
 # reactionPoint 테이블 생성
 
@@ -158,35 +158,35 @@ CREATE TABLE reactionPoint (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	memberId INT(10) UNSIGNED NOT NULL,
-	relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
-	relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
-	`point` INT(10) NOT NULL
+	memberId int(10) unsigned not null,
+	relTypeCode char(50) not null comment '관련 데이터 타입 코드',
+	relId int(10) not null comment '관련 데이터 번호',
+	`point` int(10) not null
 );
 
 # reactionPoint 테스트 데이터 생성
 # 1번 회원이 1번 글에 싫어요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
+insert into reactionPoint
+set regDate = now(),
+updateDate = now(),
 memberId = 1,
 relTypeCode = 'article',
 relId = 1,
 `point` = -1;
 
 # 1번 회원이 2번 글에 좋아요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
+insert into reactionPoint
+set regDate = now(),
+updateDate = now(),
 memberId = 1,
 relTypeCode = 'article',
 relId = 2,
 `point` = 1;
 
 # 2번 회원이 1번 글에 싫어요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
+insert into reactionPoint
+set regDate = now(),
+updateDate = now(),
 memberId = 2,
 relTypeCode = 'article',
 relId = 1,
@@ -211,20 +211,20 @@ relId = 1,
 `point` = 1;
 
 # article 테이블에 reactionPoint(좋아요) 컬럼 추가
-ALTER TABLE article ADD COLUMN goodReactionPoint INT(10) UNSIGNED NOT NULL DEFAULT 0;
-ALTER TABLE article ADD COLUMN badReactionPoint INT(10) UNSIGNED NOT NULL DEFAULT 0;
+alter table article add column goodReactionPoint int(10) unsigned not null default 0;
+alter table article add column badReactionPoint int(10) unsigned not null default 0;
 
 # update join -> 기존에 게시글의 good bad RP 값을 RP 테이블에서 추출해서 article 테이블에 채우기
-UPDATE article AS A
-INNER JOIN (
-	SELECT RP.relTypeCode, RP.relId,
-	SUM(IF(RP.point > 0, RP.point, 0)) AS goodReactionPoint,
-	SUM(IF(RP.point < 0, RP.point * -1, 0)) AS badReactionPoint
-	FROM reactionPoint AS RP
-	GROUP BY RP.relTypeCode, RP.relId
-) AS RP_SUM
-ON A.id = RP_SUM.relId
-SET A.goodReactionPoint = RP_SUM.goodReactionPoint,
+update article as A
+inner join (
+	select RP.relTypeCode, RP.relId,
+	SUM(if(RP.point > 0, RP.point, 0)) AS goodReactionPoint,
+	SUM(if(RP.point < 0, RP.point * -1, 0)) AS badReactionPoint
+	from reactionPoint as RP
+	group by RP.relTypeCode, RP.relId
+) as RP_SUM
+on A.id = RP_SUM.relId
+set A.goodReactionPoint = RP_SUM.goodReactionPoint,
 A.badReactionPoint = RP_SUM.badReactionPoint;
 
 
@@ -236,11 +236,11 @@ CREATE TABLE reply (
 	memberId INT(10) UNSIGNED NOT NULL,
 	relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
 	relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
-	`body` TEXT NOT NULL
+	`body` text not null
 );
 
 # 2번 회원이 1번 글에 댓글 작성
-INSERT INTO reply
+insert into reply
 SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 2,
@@ -249,7 +249,7 @@ relId = 1,
 `body` = '댓글 1';
 
 # 2번 회원이 1번 글에 댓글 작성
-INSERT INTO reply
+insert into reply
 SET regDate = NOW(),
 updateDate = NOW(),
 memberId = 2,
@@ -275,13 +275,76 @@ relTypeCode = 'article',
 relId = 2,
 `body` = '댓글 4';
 
+# reply 테이블에 좋아요 관련 컬럼 추가
+alter table reply add column goodReactionPoint int(10) unsigned not null default 0;
+alter table reply add column badReactionPoint int(10) unsigned not null default 0;
+
+# reply - reactionPoint 테스트 데이터
+# 1번 회원이 1번 댓글에 싫어요
+insert into reactionPoint
+set regDate = now(),
+updateDate = now(),
+memberId = 1,
+relTypeCode = 'reply',
+relId = 1,
+`point` = -1;
+
+# 1번 회원이 2번 댓글에 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'reply',
+relId = 2,
+`point` = 1;
+
+# 2번 회원이 1번 댓글에 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'reply',
+relId = 1,
+`point` = -1;
+
+# 2번 회원이 2번 댓글에 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'reply',
+relId = 2,
+`point` = -1;
+
+# 3번 회원이 1번 댓글에 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'reply',
+relId = 1,
+`point` = 1;
+
+# update join -> 기존에 댓글의 good bad RP 값을 RP 테이블에서 추출해서 reply 테이블에 채우기
+update reply as R
+inner join (
+	select RP.relTypeCode, RP.relId,
+	SUM(if(RP.point > 0, RP.point, 0)) AS goodReactionPoint,
+	SUM(if(RP.point < 0, RP.point * -1, 0)) AS badReactionPoint
+	from reactionPoint as RP
+	group by RP.relTypeCode, RP.relId
+) as RP_SUM
+on R.id = RP_SUM.relId
+set R.goodReactionPoint = RP_SUM.goodReactionPoint,
+R.badReactionPoint = RP_SUM.badReactionPoint;
+
 ######################################################################
 
 SELECT *
 FROM article
 ORDER BY id DESC;
 
-SELECT COUNT(*)
+SELECT count(*)
 FROM article
 ORDER BY id DESC;
 
@@ -300,11 +363,11 @@ FROM reply;
 
 ######################################################################
 
-SELECT IFNULL(SUM(RP.point),0)
-FROM reactionPoint AS RP
+select ifnull(SUM(RP.point),0)
+from reactionPoint as RP
 WHERE RP.relTypeCode = 'article'
-AND RP.relId = 1
-AND RP.memberId = 1;
+and RP.relId = 1
+and RP.memberId = 1;
 
 SELECT A.*, M.nickname AS extra__writer
 FROM article AS A
