@@ -17,6 +17,21 @@
 		ORDER BY R.id ASC;
 	</select>
 
+	<insert id="writeReply">
+		INSERT INTO reply
+		SET regDate = NOW(),
+		updateDate =
+		NOW(),
+		memberId = #{loginedMemberId},
+		relTypeCode = #{relTypeCode},
+		relId = #{relId},
+		`body` = #{body}
+	</insert>
+
+	<select id="getLastInsertId" parameterType="int">
+		SELECT
+		LAST_INSERT_ID()
+	</select>
 
 
 </mapper>
