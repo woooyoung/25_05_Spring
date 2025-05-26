@@ -33,5 +33,17 @@
 		LAST_INSERT_ID()
 	</select>
 
+	<select id="getReply" parameterType="int">
+		SELECT R.*
+		FROM reply AS R
+		WHERE R.id = #{id}
+	</select>
+
+	<update id="modifyReply">
+		UPDATE reply
+		SET `body` = #{body},
+		updateDate = NOW()
+		WHERE id = #{id}
+	</update>
 
 </mapper>
