@@ -17,6 +17,10 @@
 			}
 			const data = await response.json();
 			console.log("대기오염 정보:", data);
+			console.log("대기오염 정보:", data.response);
+			console.log("대기오염 정보:", data.response.body.items);
+			console.log("대기오염 정보:", data.response.body.items[0]);
+			console.log("대기오염 정보:", data.response.body.items[0].coValue);
 		} catch (e) {
 			console.error("API 호출 실패:", e);
 		}
