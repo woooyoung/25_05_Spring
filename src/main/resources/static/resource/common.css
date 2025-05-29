@@ -39,3 +39,8 @@ header>div>ul>li>ul {
 header>div>ul>li:hover>ul {
 	display: block;
 }
+
+
+.toastui-editor-contents {
+	text-align: center;
+}

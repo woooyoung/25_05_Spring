@@ -3,6 +3,7 @@
 
 <c:set var="pageTitle" value="ARTICLE DETAIL"></c:set>
 <%@ include file="../common/head.jspf"%>
+<%@ include file="../common/toastUiEditorLib.jspf"%>
 
 <!-- <iframe src="http://localhost:8080/usr/article/doIncreaseHitCount?id=2" frameborder="0"></iframe> -->
 
@@ -269,7 +270,11 @@ function doModifyReply(replyId) {
 				</tr>
 				<tr>
 					<th style="text-align: center;">Body</th>
-					<td style="text-align: center;">${article.body }</td>
+					<td>
+						<div class="toast-ui-viewer">
+							<script type="text/x-template">${article.body}</script>
+						</div>
+					</td>
 				</tr>
 			</tbody>
 		</table>
