@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.service.MemberService;
@@ -40,7 +41,8 @@ public class UsrMemberController {
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw,
+			@RequestParam(defaultValue = "/") String afterLoginUri) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
@@ -63,7 +65,7 @@ public class UsrMemberController {
 
 		rq.login(member);
 
-		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickname()), "/");
+		return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickname()), afterLoginUri);
 	}
 
 	@RequestMapping("/usr/member/join")
@@ -171,5 +173,22 @@ public class UsrMemberController {
 		}
 
 		return Ut.jsReplace(modifyRd.getResultCode(), modifyRd.getMsg(), "../member/myPage");
+	}
+
+	@RequestMapping("/usr/member/getLoginIdDup")
+	@ResponseBody
+	public ResultData getLoginIdDup(String loginId) {
+
+		if (Ut.isEmpty(loginId)) {
+			return ResultData.from("F-1", "아이디를 입력해주세요");
+		}
+
+		Member existsMember = memberService.getMemberByLoginId(loginId);
+
+		if (existsMember != null) {
+			return ResultData.from("F-2", "해당 아이디는 이미 사용중이야", "loginId", loginId);
+		}
+
+		return ResultData.from("S-1", "사용 가능!", "loginId", loginId);
 	}
 }

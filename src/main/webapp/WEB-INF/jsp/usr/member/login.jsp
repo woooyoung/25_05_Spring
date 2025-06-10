@@ -8,7 +8,8 @@
 <section class="mt-8 text-xl px-4">
 	<div class="mx-auto">
 		<form action="../member/doLogin" method="POST">
-			<table class="table"  border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
+			<input type="hidden" name="afterLoginUri" value="${param.afterLoginUri}" />
+			<table class="table" border="1" cellspacing="0" cellpadding="5" style="width: 100%; border-collapse: collapse;">
 				<tbody>
 					<tr>
 						<th>아이디</th>

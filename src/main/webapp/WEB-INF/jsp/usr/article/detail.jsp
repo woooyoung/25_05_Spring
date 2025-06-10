@@ -337,7 +337,7 @@ function doModifyReply(replyId) {
 	</c:if>
 
 	<c:if test="${!rq.isLogined() }">
-		댓글 작성을 위해 <a class="btn btn-outline btn-primary" href="../member/login">로그인</a>이 필요합니다
+		댓글 작성을 위해 <a class="btn btn-outline btn-primary" href="${rq.loginUri }">로그인</a>이 필요합니다
 	</c:if>
 	<!-- 	댓글 리스트 -->
 	<div class="mx-auto">
