@@ -11,55 +11,52 @@
 	function JoinForm__submit(form) {
 
 		form.loginId.value = form.loginId.value.trim();
-		if (form.loginId.value == 0) {
-			alert('아이디를 입력해주세요');
-			return;
-		}
-		if (form.loginId.value != validLoginId) {
-			alert('사용할 수 없는 아이디야');
-			form.loginId.focus();
-			return;
-		}
-		if (validLoginId == form.loginId.value) {
-			return;
-		}
-		form.loginPw.value = form.loginPw.value.trim();
-		if (form.loginPw.value == 0) {
-			alert('비밀번호를 입력해주세요');
-			return;
-		}
-		form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
-		if (form.loginPwConfirm.value == 0) {
-			alert('비밀번호 확인을 입력해주세요');
-			return;
-		}
-		if (form.loginPwConfirm.value != form.loginPw.value) {
-			alert('비밀번호가 일치하지 않습니다');
-			form.loginPw.focus();
-			return;
-		}
-		form.name.value = form.name.value.trim();
-		if (form.name.value == 0) {
-			alert('이름을 입력해주세요');
-			return;
-		}
-		form.nickname.value = form.nickname.value.trim();
-		if (form.nickname.value == 0) {
-			alert('닉네임을 입력해주세요');
-			return;
-		}
-		form.email.value = form.email.value.trim();
-		if (form.email.value == 0) {
-			alert('이메일을 입력해주세요');
-			return;
-		}
-		form.cellphoneNum.value = form.cellphoneNum.value.trim();
-		if (form.cellphoneNum.value == 0) {
-			alert('전화번호를 입력해주세요');
-			return;
-		}
-		submitJoinFormDone = true;
-		form.submit();
+	    if (form.loginId.value == 0) {
+	        alert('아이디를 입력해주세요');
+	        return;
+	    }
+	    if (form.loginId.value != validLoginId) {
+	        alert('사용할 수 없는 아이디야');
+	        form.loginId.focus();
+	        return;
+	    }
+
+	    form.loginPw.value = form.loginPw.value.trim();
+	    if (form.loginPw.value == 0) {
+	        alert('비밀번호를 입력해주세요');
+	        return;
+	    }
+	    form.loginPwConfirm.value = form.loginPwConfirm.value.trim();
+	    if (form.loginPwConfirm.value == 0) {
+	        alert('비밀번호 확인을 입력해주세요');
+	        return;
+	    }
+	    if (form.loginPwConfirm.value != form.loginPw.value) {
+	        alert('비밀번호가 일치하지 않습니다');
+	        form.loginPw.focus();
+	        return;
+	    }
+	    form.name.value = form.name.value.trim();
+	    if (form.name.value == 0) {
+	        alert('이름을 입력해주세요');
+	        return;
+	    }
+	    form.nickname.value = form.nickname.value.trim();
+	    if (form.nickname.value == 0) {
+	        alert('닉네임을 입력해주세요');
+	        return;
+	    }
+	    form.email.value = form.email.value.trim();
+	    if (form.email.value == 0) {
+	        alert('이메일을 입력해주세요');
+	        return;
+	    }
+	    form.cellphoneNum.value = form.cellphoneNum.value.trim();
+	    if (form.cellphoneNum.value == 0) {
+	        alert('전화번호를 입력해주세요');
+	        return;
+	    }
+	    form.submit();
 	}
 
 	function checkLoginIdDup(el) {
@@ -81,7 +78,7 @@
 			}
 		}, 'json');
 	}
-	// 	checkLoginIdDup(); // 매번 실행
+	// checkLoginIdDup(); // 매번 실행
 	const checkLoginIdDupDebounced = _.debounce(checkLoginIdDup, 600); // 실행 빈도 조절
 </script>
 
@@ -140,7 +137,7 @@
 					<tr>
 						<th></th>
 						<td style="text-align: center;">
-							<button class="btn btn-ghost">가입</button>
+							<button type="submit" class="btn btn-ghost">가입</button>
 						</td>
 					</tr>
 

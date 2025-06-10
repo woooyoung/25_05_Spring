@@ -96,7 +96,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'admin',
-loginPw = 'admin',
+loginPw = SHA2('admin',256),
 `authLevel` = 7,
 `name` = '관리자',
 nickname = '관리자_닉네임',
@@ -108,7 +108,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'test1',
-loginPw = 'test1',
+loginPw = SHA2('test1',256),
 `name` = '회원1_이름',
 nickname = '회원1_닉네임',
 cellphoneNum = '01043214321',
@@ -118,7 +118,7 @@ INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 loginId = 'test2',
-loginPw = 'test2',
+loginPw = SHA2('test2',256),
 `name` = '회원2_이름',
 nickname = '회원2_닉네임',
 cellphoneNum = '01056785678',
@@ -339,6 +339,8 @@ set R.goodReactionPoint = RP_SUM.goodReactionPoint,
 R.badReactionPoint = RP_SUM.badReactionPoint;
 
 ######################################################################
+
+SELECT SHA2('test1',256);
 
 SELECT *
 FROM article

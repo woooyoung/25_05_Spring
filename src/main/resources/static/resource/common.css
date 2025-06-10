@@ -72,8 +72,8 @@ html[data-theme="dark"] .btn-theme-toggle>span:last-child {
 }
 
 /* /* 밝은 테마에서의 네비게이션 2차 메뉴 배경색 */
-*
-/
+
+
 /* html[data-theme='light'] header>div>ul>li>ul { */
 /* 	background-color: white; 또는 밝은 테마에 적합한 다른 색상 */
 /* } */
@@ -93,8 +93,7 @@ html[data-theme="dark"] .btn-theme-toggle>span:last-child {
 
 
 
-*
-/
+
 /* html[data-theme='dark'] header>div>ul>li>ul { */
 /* 	background-color: #333333; 또는 어두운 테마에 적합한 다른 색상 */
 /* } */
